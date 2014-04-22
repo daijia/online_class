@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
-#ruby-gemset=railstutorial_rails_4_0
+#ruby-gemset=rails_4_0
 
 gem 'rails', '4.0.4'
-gem 'bootstrap-sass', '2.3.2.0'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'faker', '1.1.2'
 gem 'will_paginate', '3.0.4'
@@ -16,7 +15,7 @@ group :development, :test do
   # gem 'guard-rspec', '2.5.0'
   # gem 'spork-rails', '4.0.0'
   # gem 'guard-spork', '1.5.0'
-  # gem 'childprocess', '0.3.6'
+  gem 'childprocess'
 end
 
 group :test do
@@ -38,7 +37,8 @@ group :test do
   # gem 'wdm', '0.1.0'
 end
 
-gem 'sass-rails', '4.0.1'
+gem 'sass-rails', '4.0.3'
+gem 'bootstrap-sass', '2.3.2.0'
 gem 'uglifier', '2.1.1'
 gem 'coffee-rails', '4.0.1'
 gem 'jquery-rails', '2.2.1'
