@@ -4,7 +4,16 @@
     <section>
       <h1>
         <%= gravatar_for @user %>
+        用户名:
         <%= @user.name %>
+        年龄：
+        <%= get_age_des @user.age %>
+        性别：
+        <%= get_gender_des @user.gender %>
+        学历：
+        <%= get_degree_des @user.degree %>
+        自我描述：
+        <%= get_description_des @user.description %>
       </h1>
     </section>
   </aside>

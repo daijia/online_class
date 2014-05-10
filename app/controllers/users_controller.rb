@@ -22,11 +22,12 @@ class UsersController < ApplicationController
   end
 
   def edit
+
   end
 
   def update
     if @user.update_attributes(user_params)
-      flash[:success] = "个人资料已导出"
+      flash[:success] = "个人资料已更新"
       redirect_to @user
     else
       render 'edit'
@@ -46,7 +47,7 @@ class UsersController < ApplicationController
   private
     def user_params
       params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+                                   :password_confirmation, :gender, :age, :degree, :description)
     end
 
     def signed_in_user

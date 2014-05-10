@@ -1,5 +1,5 @@
 <% provide(:title, "编辑用户") %>
-<h1>Update your profile</h1>
+<h1>更新你的个人信息</h1>
 
 <div class="row">
   <div class="span6 offset3">
@@ -12,13 +12,25 @@
         <%= f.label "邮箱" %>
         <%= f.text_field :email %>
 
+        <%= f.label "性别" %>
+        <%= f.select :gender, array_with_index(get_all_gender()) %>
+
+        <%= f.label "年龄" %>
+        <%= f.text_field :age %>
+
+        <%= f.label "学历" %>
+        <%= f.select :degree, array_with_index(get_all_degree()) %>
+
+        <%= f.label "自我描述" %>
+        <%= f.text_field :description %>
+
         <%= f.label "密码" %>
         <%= f.password_field :password %>
 
         <%= f.label :password_confirmation, "密码确认" %>
         <%= f.password_field :password_confirmation %>
 
-        <%= f.submit "保存密码", class: "btn btn-large btn-primary" %>
+        <%= f.submit "修改个人资料", class: "btn btn-large btn-primary" %>
     <% end %>
 
     <%= gravatar_for @user %>
