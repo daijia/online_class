@@ -1,0 +1,16 @@
+<% provide(:title, '我的好友') %>
+
+<ul class="users">
+  <% if current_user.friends.any? %>
+      <% @users = current_user.friends %>
+      <% @users.each do |user| %>
+          <%= render partial: 'user', locals: {user: user}%>
+          <%= render partial: 'shared/remove_friend_button', locals: {user: user}%>
+      <% end %>
+
+  <% else %>
+      你暂时还没有好友哦，快去找找你的小伙伴吧~
+  <% end %>
+</ul>
+
+

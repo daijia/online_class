@@ -2,6 +2,14 @@ class User < ActiveRecord::Base
   before_save { self.email = email.downcase }
   before_create :create_remember_token
 
+  has_many :friend_requests, -> { where category:0 }, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy
+  has_many :friend_request_replies, -> { where category:1 }, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy
+  has_many :notices, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy
+
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships, source: :friend
+
+
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   validates :email, presence: true,
@@ -20,6 +28,22 @@ class User < ActiveRecord::Base
 
   def User.hash(token)
     Digest::SHA1.hexdigest(token.to_s)
+  end
+
+  def be_friend_with(other_user)
+    if other_user.id == self.id
+      return false
+    end
+    unless self.friendships.exists?(friend_id: other_user.id)
+      self.friendships.create(friend_id: other_user.id)
+    end
+    unless other_user.friendships.exists?(friend_id: self.id)
+      other_user.friendships.create(friend_id: self.id)
+    end
+  end
+
+  def not_be_friend_with(other_user)
+    self.friendships.find_by(friend_id: other_user.id).destroy
   end
 
   private

@@ -2,16 +2,19 @@ namespace :db do
   desc "Fill database with sample data"
 
   task populate: :environment do
+
     ramdom = Random.new
-    User.create!(name: "Example User",
-                 email: "example@railstutorial.org",
-                 password: "foobar",
-                 password_confirmation: "foobar",
+    User.create!(name: "daijia",
+                 email: "daijia@gmail.com",
+                 password: "forever",
+                 password_confirmation: "forever",
                  admin: true,
                  gender: 1,
                  age: 22,
                  degree: 4,
                  description: "不忘初心，方得始终")
+
+
     descriptions = ["", "奋斗者在汗水汇集的江河里，将事业之舟驶到了理想的彼岸。",
                     "忙于采集的蜜蜂，无暇在人前高谈阔论。",
                     "勇士搏出惊涛骇流而不沉沦，懦夫在风平浪静也会溺水。",
@@ -26,8 +29,8 @@ namespace :db do
     des_length = descriptions.length
     99.times do |n|
       name  = Faker::Name.name
-      email = "example-#{n+1}@railstutorial.org"
-      password  = "password"
+      email = "example-#{n+1}@gmail.com"
+      password  = "forever"
       User.create!(name: name,
                    email: email,
                    password: password,
@@ -36,6 +39,12 @@ namespace :db do
                    age: ramdom.rand(0...50),
                    degree: ramdom.rand(0...6),
                    description: descriptions[ramdom.rand(0...des_length)])
+
+      if n > 3 && n < 10
+        FriendRequest.create!(sender_id: n, receiver_id: 1, is_read: 1, content: "交个朋友吧"+n.to_s, category: 0)
+      end
     end
+
   end
+
 end

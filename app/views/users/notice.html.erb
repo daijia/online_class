@@ -1,0 +1,31 @@
+<% provide(:title, '我的消息') %>
+<div class="row">
+  <div class="span6 offset3">
+    <% if @friend_requests && @friend_requests.length == 0 && @friend_request_replies && @friend_request_replies.length==0 %>
+    无任何消息
+    <% end %>
+    <% @friend_requests.each do |request|%>
+    <li>
+      <%= gravatar_for request.sender, size: 52 %>
+      <%= link_to request.sender.name, request.sender %>
+      请求加你为好友
+      <% if request.content != "" %>
+      <%= "(" + request.content + ")"%>
+
+      <% end %>
+      <% @user = request.sender %>
+      <%= render 'shared/add_friend_button'%>
+      <%= render partial: 'delete_notices', locals: {notice: request}%>
+    </li>
+    <% end %>
+
+    <% @friend_request_replies.each do |request|%>
+        <li>
+          <%= gravatar_for request.sender, size: 52 %>
+          <%= link_to request.sender.name, request.sender %>
+          通过了你的好友请求
+          <%= render partial: 'delete_notices', locals: {notice: request}%>
+        </li>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<%= form_tag('/friend_requests/'+notice.id.to_s, method: :delete) do %>
+    <%= hidden_field_tag(:sender_id, notice.sender.id) %>
+    <%= hidden_field_tag(:category, notice.category) %>
+
+    <%= submit_tag "删除", class: "btn btn-large btn-primary" %>
+<% end %>

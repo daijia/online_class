@@ -1,4 +1,13 @@
 <% provide(:title, @user.name) %>
+
+<% if signed_in? && !current_user?(@user) %>
+    <% if current_user.friends.exists?(@user)%>
+        <p>已为好友</p>
+    <% else %>
+    <%= render 'shared/add_friendship' %>
+    <a href="#myModal" role="button" class="btn" data-toggle="modal">加为好友</a>
+    <% end %>
+<% end %>
 <div class="row">
   <aside class="span4">
     <section>
