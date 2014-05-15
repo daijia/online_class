@@ -33,9 +33,5 @@ class FriendRequestsController < ApplicationController
     redirect_back_or notice_user_path(current_user.id)
 
   end
-  private
-    def local_store_location
-      session[:return_to] ||= request.referer
-    end
 
 end

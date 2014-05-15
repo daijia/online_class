@@ -50,4 +50,25 @@ module SessionsHelper
   def store_location
     session[:return_to] = request.fullpath if request.get?
   end
+
+  def local_store_location
+    session[:return_to] ||= request.referer
+  end
+
+  def array_with_index(arr, start_at=0)
+    result = []
+    (0..arr.length-1).each do |i|
+      result.push([arr[i], (i + start_at)])
+    end
+    return result
+  end
+
+  def get_course_status_des(index)
+    arr_status = ["尚未开始", "已经开始", "已经结束"]
+    if index >= 0 || index < arr_status.length
+      return arr_status[index]
+    else
+      return "error status"
+    end
+  end
 end

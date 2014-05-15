@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :notice, :friends]
+  before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :notice, :friends, :courses]
   before_action :correct_user,   only: [:edit, :update, :notice, :friends]
   before_action :admin_user,     only: :destroy
   def show
@@ -34,10 +34,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def notice
-    @friend_requests = current_user.friend_requests
-    @friend_request_replies = current_user.friend_request_replies
-  end
+
 
   def index
     @users = User.paginate(page: params[:page])
@@ -53,10 +50,21 @@ class UsersController < ApplicationController
     @users = current_user.friends.paginate(page: params[:page])
   end
 
+  def notice
+    @friend_requests = current_user.friend_requests
+    @friend_request_replies = current_user.friend_request_replies
+  end
+
+  def courses
+    @user = User.find(params[:id])
+    @public_courses = @user.public_courses
+    @private_courses = @user.private_courses
+  end
+
   private
     def user_params
       params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation, :gender, :age, :degree, :description)
+                                 :password_confirmation, :gender, :age, :degree, :description)
     end
 
 

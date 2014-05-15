@@ -3,13 +3,14 @@ OnlineClass::Application.routes.draw do
     member do
       get 'notice'
       get 'friends'
+      get 'courses'
     end
   end
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :friend_requests, only: [:create, :destroy]
   resources :friendships, only: [:create, :destroy]
-  resources :courses
+  resources :courses, except: [:index]
 
   root to: 'static_pages#home'
   match '/signup',  to: 'users#new',            via: 'get'

@@ -2,12 +2,17 @@ class User < ActiveRecord::Base
   before_save { self.email = email.downcase }
   before_create :create_remember_token
 
-  has_many :friend_requests, -> { where category:0 }, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy
-  has_many :friend_request_replies, -> { where category:1 }, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy
+  has_many :friend_requests, -> { where category:0 }, class_name: "FriendRequest", foreign_key: "receiver_id"
+  has_many :friend_request_replies, -> { where category:1 }, class_name: "FriendRequest", foreign_key: "receiver_id"
   has_many :notices, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy
 
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships, source: :friend
+
+  has_many :courses, foreign_key: "teacher_id", dependent: :destroy
+  has_many :public_courses, -> { where kind:1 }, class_name: "Course", foreign_key: "teacher_id"
+  has_many :private_courses, -> { where kind:0 }, class_name: "Course", foreign_key: "teacher_id"
+
 
 
   validates :name, presence: true, length: { maximum: 50 }
@@ -44,6 +49,7 @@ class User < ActiveRecord::Base
 
   def not_be_friend_with(other_user)
     self.friendships.find_by(friend_id: other_user.id).destroy
+    other_user.friendships.find_by(friend_id: self.id).destroy
   end
 
   private

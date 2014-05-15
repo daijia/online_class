@@ -23,6 +23,12 @@
         <%= get_degree_des @user.degree %>
         自我描述：
         <%= get_description_des @user.description %>
+
+        <% unless current_user?(@user) %>
+            <%= link_to '他(她)开设的课程', courses_user_path(@user)%>
+        <% else %>
+            <%= link_to '我开设的课程', courses_user_path(@user)%>
+        <% end %>
       </h1>
     </section>
   </aside>

@@ -45,13 +45,6 @@ module UsersHelper
     return description
   end
 
-  def array_with_index(arr)
-    result = []
-    (0..arr.length-1).each do |i|
-      result.push([arr[i], i])
-    end
-    return result
-  end
 
 
 end

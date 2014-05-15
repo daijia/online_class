@@ -1,0 +1,32 @@
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+        <%= @course.name %>
+
+        <% if @course.description != "" %>
+            <p><%= "课程描述:" + @course.description %></p>
+        <% end %>
+        <% if @course.knowledge != "" %>
+            <p><%= "预备知识:" + @course.knowledge %></p>
+        <% end %>
+        <% if @course.plan != "" %>
+            <p><%= "课程计划:" + @course.plan %></p>
+        <% end %>
+        <% if @course.reference != "" %>
+            <p><%= "参考资料:" + @course.reference %></p>
+        <% end %>
+        <% if @course.public? %>
+            <p><%= get_course_kind_res(@course.kind) %></p>
+        <% end %>
+        <% if signed_in? && current_user?(@course.teacher)%>
+            <% if @course.private? %>
+                <p><%= get_course_kind_res(@course.kind) %></p>
+            <% end %>
+            <%= link_to "更新", edit_course_path(@course)%>
+            <%= link_to "删除", course_path(@course), :method => 'delete' %>
+        <% end %>
+      </h1>
+    </section>
+  </aside>
+</div>

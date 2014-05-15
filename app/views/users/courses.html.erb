@@ -1,0 +1,16 @@
+<% provide(:title, '课程列表') %>
+
+<ul class="users">
+  <% if @public_courses.length == 0 && @private_courses.length == 0 %>
+      你暂时还没有任何教学课程哦
+  <% end %>
+  <% @public_courses.each do |course| %>
+      <%= render partial: 'shared/course', locals: {course: course}%>
+  <% end %>
+  <% if current_user?(@user) %>
+      <% @private_courses.each do |course| %>
+          <%= render partial: 'shared/course', locals: {course: course}%>
+      <% end %>
+  <% end %>
+  <%= link_to '创建课程', new_course_path%>
+</ul>
