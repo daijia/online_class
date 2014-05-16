@@ -9,8 +9,17 @@ OnlineClass::Application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :friend_requests, only: [:create, :destroy]
+  resources :course_messages, only: [:create, :destroy]
+  resources :attendence_relationships, only: [:create, :destroy]
   resources :friendships, only: [:create, :destroy]
   resources :courses, except: [:index]
+
+  match 'course_messages/add_users' => 'course_messages#add_users', :via => :post
+  match 'course_messages/agree_invitation' => 'course_messages#agree_invitation', :via => :post
+  match 'course_messages/access_course' => 'course_messages#access_course', :via => :post
+  match 'course_messages/agree_access' => 'course_messages#agree_access', :via => :post
+  match 'course_messages/quit_course_by_self' => 'course_messages#quit_course_by_self', :via => :post
+  match 'course_messages/quit_course_by_teacher' => 'course_messages#quit_course_by_teacher', :via => :post
 
   root to: 'static_pages#home'
   match '/signup',  to: 'users#new',            via: 'get'

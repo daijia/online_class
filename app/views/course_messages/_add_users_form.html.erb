@@ -1,0 +1,9 @@
+<%= form_tag('/course_messages/add_users', :method => "post") do %>
+    <%= hidden_field_tag(:course_id, course.id) %>
+
+    <%= label_tag "@你想要邀请的用户"%>
+    <%= text_field_tag :users, nil, :placeholder =>  "示例: @李开复 @马云" %>
+    <%= text_area_tag :content, nil, :placeholder =>  "捎带上一句话吧..." %>
+
+    <%= submit_tag "邀请", class: "btn btn-large btn-primary" %>
+<% end %>

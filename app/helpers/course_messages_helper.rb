@@ -1,0 +1,2 @@
+module CourseMessagesHelper
+end

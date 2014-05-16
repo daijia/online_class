@@ -53,6 +53,7 @@ class UsersController < ApplicationController
   def notice
     @friend_requests = current_user.friend_requests
     @friend_request_replies = current_user.friend_request_replies
+    @course_messages = current_user.course_messages
   end
 
   def courses

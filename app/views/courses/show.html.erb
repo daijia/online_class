@@ -25,7 +25,26 @@
             <% end %>
             <%= link_to "更新", edit_course_path(@course)%>
             <%= link_to "删除", course_path(@course), :method => 'delete' %>
+            <%= render partial: 'course_messages/add_users_form', locals: {course: @course}%>
         <% end %>
+
+        <% if !current_user?(@course.teacher) && !@course.students.exists?(current_user.id) %>
+            <%= render partial: 'course_messages/access_course', locals: {course: @course}%>
+        <% else %>
+            <%= render partial: 'course_messages/quit_course_by_self', locals: {course: @course}%>
+        <% end %>
+        <p>学生</p>
+
+        <ul>
+          <% @course.students.each do |student| %>
+            <li>
+                <%= link_to student.name, student %>
+                <% if current_user?(@course.teacher) %>
+                    <%= render partial: 'course_messages/quit_course_by_teacher', locals: {user: student, course: @course} %>
+                <% end %>
+            </li>
+          <% end %>
+        </ul>
       </h1>
     </section>
   </aside>

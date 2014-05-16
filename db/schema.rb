@@ -11,13 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140513082829) do
+ActiveRecord::Schema.define(version: 20140516023428) do
+
+  create_table "attendence_relationships", force: true do |t|
+    t.integer  "course_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "attendence_relationships", ["course_id"], name: "index_attendence_relationships_on_course_id"
+  add_index "attendence_relationships", ["user_id"], name: "index_attendence_relationships_on_user_id"
 
   create_table "course_categories", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "course_messages", force: true do |t|
+    t.integer  "receiver_id"
+    t.integer  "sender_id"
+    t.integer  "course_id"
+    t.integer  "category"
+    t.string   "content",     default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "is_read",     default: 0
+  end
+
+  add_index "course_messages", ["receiver_id"], name: "index_course_messages_on_receiver_id"
+  add_index "course_messages", ["sender_id"], name: "index_course_messages_on_sender_id"
 
   create_table "courses", force: true do |t|
     t.integer  "teacher_id"

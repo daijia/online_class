@@ -27,5 +27,60 @@
           <%= render partial: 'delete_notices', locals: {notice: request}%>
         </li>
     <% end %>
+
+
+    <% @course_messages.each do |message|%>
+        <li>
+
+          <% if get_course_message_category_des(message[:category]) == "t_pull_s" %>
+              你的好友<%= link_to message.sender.name, message.sender %>将你添加到了
+              <%= link_to message.course.name, message.course %>课程中，赶快去看看吧
+              <% if message.content && message.content != "" %>
+                <%= "( " + message.content + " )" %>
+              <% end %>
+          <% end %>
+
+          <% if get_course_message_category_des(message[:category]) == "t_invite_s" %>
+              <%= link_to message.sender.name, message.sender %>邀请你去学习
+              <%= link_to message.course.name, message.course %>这门课程
+              <%= "( " + message.content + " )" %>
+              <%= render partial: 'course_messages/agree_invitation_button', locals: {message: message}%>
+          <% end %>
+
+          <% if get_course_message_category_des(message[:category]) == "s_agree_t" %>
+              <%= link_to message.sender.name, message.sender %>加入到了你的
+              <%= link_to message.course.name, message.course %>课程中
+          <% end %>
+
+          <% if get_course_message_category_des(message[:category]) == "s_ask_t" %>
+              <%= link_to message.sender.name, message.sender %>请求加入到了你的
+              <%= link_to message.course.name, message.course %>课程中
+              <%= render partial: 'course_messages/agree_access', locals: {message: message}%>
+          <% end %>
+
+          <% if get_course_message_category_des(message[:category]) == "t_agree_s" %>
+              <%= link_to message.sender.name, message.sender %>将你添加到了
+              <%= link_to message.course.name, message.course %>课程中
+          <% end %>
+
+          <% if get_course_message_category_des(message[:category]) == "s_quit_t" %>
+              <%= link_to message.sender.name, message.sender %>退出了你的
+              <%= link_to message.course.name, message.course %>课程
+          <% end %>
+
+          <% if get_course_message_category_des(message[:category]) == "t_quit_s" %>
+              <%= link_to message.sender.name, message.sender %>将你从他的
+              <%= link_to message.course.name, message.course %>课程移除了
+          <% end %>
+
+          <% if get_course_message_category_des(message[:category]) == "t_destroy_s" %>
+              <%= link_to message.sender.name, message.sender %>删除了
+              <%= message.content %>课程
+          <% end %>
+
+          <%= render partial: 'course_messages/delete_course_message', locals: {message: message}%>
+        </li>
+    <% end %>
+
   </div>
 </div>

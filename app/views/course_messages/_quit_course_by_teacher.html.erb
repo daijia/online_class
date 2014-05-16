@@ -1,0 +1,5 @@
+<%= form_tag('/course_messages/quit_course_by_teacher', :method => "post") do %>
+    <%= hidden_field_tag(:course_id, course.id) %>
+    <%= hidden_field_tag(:user_id, user.id) %>
+    <%= submit_tag "移除", class: "btn btn-large btn-primary" %>
+<% end %>

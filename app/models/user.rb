@@ -2,9 +2,9 @@ class User < ActiveRecord::Base
   before_save { self.email = email.downcase }
   before_create :create_remember_token
 
+  has_many :notices, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy
   has_many :friend_requests, -> { where category:0 }, class_name: "FriendRequest", foreign_key: "receiver_id"
   has_many :friend_request_replies, -> { where category:1 }, class_name: "FriendRequest", foreign_key: "receiver_id"
-  has_many :notices, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy
 
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships, source: :friend
@@ -14,8 +14,16 @@ class User < ActiveRecord::Base
   has_many :private_courses, -> { where kind:0 }, class_name: "Course", foreign_key: "teacher_id"
 
 
+  has_many :course_messages, class_name: "CourseMessage", foreign_key: "receiver_id", dependent: :destroy
 
-  validates :name, presence: true, length: { maximum: 50 }
+  has_many :attendence_relationships, dependent: :destroy
+  has_many :subjects, through: :attendence_relationships, source: :course
+
+
+
+  VALID_NAME_REGEX = /\A[^@\s]+\z/
+  validates :name, presence: true, length: { minimun: 1, maximum: 50 }, format: { with: VALID_NAME_REGEX },
+            uniqueness: { case_sensitive: false }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   validates :email, presence: true,
                     format: { with: VALID_EMAIL_REGEX },
@@ -51,6 +59,23 @@ class User < ActiveRecord::Base
     self.friendships.find_by(friend_id: other_user.id).destroy
     other_user.friendships.find_by(friend_id: self.id).destroy
   end
+
+  def add_course_message(parameters)
+    if self.course_messages.exists?(sender_id: parameters[:sender_id],
+                                    course_id: parameters[:course_id],
+                                    category: parameters[:category])
+
+      self.course_messages.find_by(sender_id: parameters[:sender_id],
+                                   course_id: parameters[:course_id],
+                                   category: parameters[:category]).update_attributes(content: parameters[:content])
+    else
+      self.course_messages.create(sender_id: parameters[:sender_id],
+                                  course_id: parameters[:course_id],
+                                  category: parameters[:category],
+                                  content: parameters[:content])
+    end
+  end
+
 
   private
 

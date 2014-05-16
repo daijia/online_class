@@ -42,7 +42,13 @@ class CoursesController < ApplicationController
 
 
   def destroy
-    Course.find(params[:id]).destroy
+    course = Course.find(params[:id])
+    course.students.each do |student|
+      student.add_course_message(sender_id: current_user.id,
+                                 category: get_course_message_category("t_destroy_s"),
+                                 course_id: 0, content: course.name)
+    end
+    course.destroy
     flash[:success] = "课程已删除."
     redirect_to courses_user_path(current_user[:id])
   end

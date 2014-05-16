@@ -5,7 +5,7 @@
   <div class="modal-body">
     <%= form_tag(:controller => "friend_requests", :action => "create", :method => "post") do %>
           <%= hidden_field_tag(:receiver_id, @user.id) %>
-          <%= text_area_tag(:content, "告诉他/她你是谁吧...") %>
+          <%= text_area_tag(:content, nil, :placeholder => "告诉他/她你是谁吧...") %>
     </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>

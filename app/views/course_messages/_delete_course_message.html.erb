@@ -1,0 +1,4 @@
+<%= form_tag('/course_messages/'+message.id.to_s, method: :delete) do %>
+    <%= hidden_field_tag(:message_id, message.id) %>
+    <%= submit_tag "忽略", class: "btn btn-large btn-primary" %>
+<% end %>

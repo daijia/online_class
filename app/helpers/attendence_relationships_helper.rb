@@ -1,0 +1,2 @@
+module AttendenceRelationshipsHelper
+end

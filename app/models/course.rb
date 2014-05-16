@@ -11,6 +11,11 @@ class Course < ActiveRecord::Base
   validates :knowledge, length: { maximum: 1000 }
 
   default_scope -> { order('created_at DESC') }
+
+  has_many :attendence_relationships, dependent: :destroy
+  has_many :students, through: :attendence_relationships, source: :user
+  has_many :course_messages, dependent: :destroy
+
   belongs_to :teacher, class_name: "User", foreign_key:"teacher_id"
   belongs_to :category, class_name: "CourseCategory", foreign_key:"category_id"
 
@@ -26,4 +31,16 @@ class Course < ActiveRecord::Base
     return self.kind == 0
   end
 
+
+  def add_student(user_id)
+    unless self.attendence_relationships.exists?(user_id: user_id)
+      self.attendence_relationships.create(user_id: user_id)
+    end
+  end
+
+  def remove_student(user_id)
+    if self.attendence_relationships.exists?(user_id: user_id)
+      self.attendence_relationships.find_by(user_id: user_id).destroy
+    end
+  end
 end

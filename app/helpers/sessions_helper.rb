@@ -55,6 +55,15 @@ module SessionsHelper
     session[:return_to] ||= request.referer
   end
 
+  def is_friend_with?(user)
+    friendship = Friendship.find_by(user_id: current_user.id, friend_id: user.id)
+    if friendship
+      return true
+    else
+      return false
+    end
+  end
+
   def array_with_index(arr, start_at=0)
     result = []
     (0..arr.length-1).each do |i|
@@ -71,4 +80,6 @@ module SessionsHelper
       return "error status"
     end
   end
+
+
 end
