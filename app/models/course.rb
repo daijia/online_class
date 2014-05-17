@@ -15,6 +15,7 @@ class Course < ActiveRecord::Base
   has_many :attendence_relationships, dependent: :destroy
   has_many :students, through: :attendence_relationships, source: :user
   has_many :course_messages, dependent: :destroy
+  has_many :lessons, dependent: :destroy
 
   belongs_to :teacher, class_name: "User", foreign_key:"teacher_id"
   belongs_to :category, class_name: "CourseCategory", foreign_key:"category_id"
@@ -42,5 +43,19 @@ class Course < ActiveRecord::Base
     if self.attendence_relationships.exists?(user_id: user_id)
       self.attendence_relationships.find_by(user_id: user_id).destroy
     end
+  end
+
+  def can_be_seen?(user_id)
+    if self.teacher.id == user_id
+      return true
+    end
+    if self.students.exists?(user_id)
+      return true
+    end
+    user = User.find(user_id)
+    if user.course_messages.exists?(sender_id: self.teacher.id, category: CourseMessage.get_category("t_invite_s"), course_id: self.id)
+      return true
+    end
+    return false
   end
 end

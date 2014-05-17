@@ -19,6 +19,13 @@
         <% if @course.public? %>
             <p><%= get_course_kind_res(@course.kind) %></p>
         <% end %>
+        <ul>
+        <% @course.lessons.each do |lesson| %>
+            <li>
+              <%= link_to lesson.name, lesson %>
+            </li>
+        <% end %>
+        </ul>
         <% if signed_in? && current_user?(@course.teacher)%>
             <% if @course.private? %>
                 <p><%= get_course_kind_res(@course.kind) %></p>
@@ -26,6 +33,7 @@
             <%= link_to "更新", edit_course_path(@course)%>
             <%= link_to "删除", course_path(@course), :method => 'delete' %>
             <%= render partial: 'course_messages/add_users_form', locals: {course: @course}%>
+            <%= render partial: 'lessons/create_lesson', locals: {course: @course}%>
         <% end %>
 
         <% if !current_user?(@course.teacher) && !@course.students.exists?(current_user.id) %>

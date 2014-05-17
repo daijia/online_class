@@ -1,0 +1,9 @@
+<% provide(:title, @lesson.name) %>
+
+<%= "老师：" + @lesson.course.teacher.name %>
+<%= "课程名：" + @lesson.course.name %>
+<%= "本节课主题：" + @lesson.name %>
+<% if signed_in? && @lesson.belongs_to_user?(current_user.id)%>
+    <%= link_to "编辑",  edit_lesson_path(@lesson) %>
+    <%= link_to "删除", lesson_path(@lesson), :method => 'delete' %>
+<% end %>

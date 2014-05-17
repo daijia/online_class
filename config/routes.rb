@@ -13,6 +13,7 @@ OnlineClass::Application.routes.draw do
   resources :attendence_relationships, only: [:create, :destroy]
   resources :friendships, only: [:create, :destroy]
   resources :courses, except: [:index]
+  resources :lessons, except: [:index]
 
   match 'course_messages/add_users' => 'course_messages#add_users', :via => :post
   match 'course_messages/agree_invitation' => 'course_messages#agree_invitation', :via => :post
