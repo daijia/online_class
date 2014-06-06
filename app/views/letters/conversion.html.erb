@@ -1,0 +1,37 @@
+<% provide(:title, '我的私信') %>
+
+<%= render 'new' %>
+<ul class="users">
+
+  <% other_user_words_index = 0 %>
+  <% my_words_index = 0 %>
+  <% while other_user_words_index < @other_user_words.length || my_words_index < @my_words.length %>
+      <li>
+      <% letter = nil %>
+      <% if other_user_words_index < @other_user_words.length && my_words_index < @my_words.length %>
+
+        <% if @other_user_words[other_user_words_index].created_at > @my_words[my_words_index].created_at %>
+          <% letter = @other_user_words[other_user_words_index] %>
+          <%= render partial: 'letter_right', locals: {user: letter.sender, letter: letter}%>
+          <% other_user_words_index += 1 %>
+        <% else %>
+          <% letter = @my_words[my_words_index] %>
+          <%= render partial: 'letter_left', locals: {user: current_user, letter: letter}%>
+          <% my_words_index += 1 %>
+        <% end %>
+
+      <% elsif other_user_words_index < @other_user_words.length %>
+        <% letter = @other_user_words[other_user_words_index] %>
+        <%= render partial: 'letter_right', locals: {user: letter.sender, letter: letter}%>
+        <% other_user_words_index += 1 %>
+      <% else %>
+        <% letter = @my_words[my_words_index] %>
+        <%= render partial: 'letter_left', locals: {user: current_user, letter: letter}%>
+        <% my_words_index += 1 %>
+      <% end %>
+      <%= link_to '删除', {:controller => "letters", :action => "destroy",
+                           :id => letter.id} , :method => "delete"%>
+      </li>
+  <% end %>
+
+</ul>

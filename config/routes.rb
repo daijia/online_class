@@ -4,11 +4,13 @@ OnlineClass::Application.routes.draw do
       get 'notice'
       get 'friends'
       get 'courses'
+      get 'letters'
     end
   end
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :friend_requests, only: [:create, :destroy]
+  resources :letters, only: [:create, :destroy, :new]
   resources :course_messages, only: [:create, :destroy]
   resources :attendence_relationships, only: [:create, :destroy]
   resources :friendships, only: [:create, :destroy]
@@ -21,6 +23,8 @@ OnlineClass::Application.routes.draw do
   match 'course_messages/agree_access' => 'course_messages#agree_access', :via => :post
   match 'course_messages/quit_course_by_self' => 'course_messages#quit_course_by_self', :via => :post
   match 'course_messages/quit_course_by_teacher' => 'course_messages#quit_course_by_teacher', :via => :post
+
+  match 'letters/conversion' => 'letters#conversion', :via => :get
 
   root to: 'static_pages#home'
   match '/signup',  to: 'users#new',            via: 'get'

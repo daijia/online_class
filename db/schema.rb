@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140517041656) do
+ActiveRecord::Schema.define(version: 20140605120718) do
 
   create_table "attendence_relationships", force: true do |t|
     t.integer  "course_id"
@@ -94,6 +94,15 @@ ActiveRecord::Schema.define(version: 20140517041656) do
   end
 
   add_index "lessons", ["course_id"], name: "index_lessons_on_course_id"
+
+  create_table "letters", force: true do |t|
+    t.integer  "receiver_id"
+    t.integer  "sender_id"
+    t.string   "content",     default: ""
+    t.boolean  "is_read",     default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"

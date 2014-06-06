@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :notice, :friends, :courses]
-  before_action :correct_user,   only: [:edit, :update, :notice, :friends]
+  before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :notice, :friends, :courses, :letters]
+  before_action :correct_user,   only: [:edit, :update, :notice, :friends, :letters]
   before_action :admin_user,     only: :destroy
   def show
     @user = User.find(params[:id])
@@ -60,6 +60,27 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @public_courses = @user.public_courses
     @private_courses = @user.private_courses
+  end
+
+  def letters
+    @all_letters = current_user.letters
+    @letters = []
+    @unread_letter_count = []
+    @all_letters.each do |letter|
+      is_first = true
+      @letters.each do |compare_letter|
+        if compare_letter.sender == letter.sender
+          is_first = false
+        end
+      end
+      if is_first
+        @letters.push(letter)
+      end
+      @letters.each do |letter|
+        @unread_letter_count.push(current_user.letters.where(sender_id: letter.sender_id, is_read: false).count)
+      end
+    end
+
   end
 
   private

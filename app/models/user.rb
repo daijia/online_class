@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
   has_many :attendence_relationships, dependent: :destroy
   has_many :subjects, through: :attendence_relationships, source: :course
 
+  has_many :letters, class_name: "Letter", foreign_key: "receiver_id", dependent: :destroy
+
 
 
   VALID_NAME_REGEX = /\A[^@\s]+\z/

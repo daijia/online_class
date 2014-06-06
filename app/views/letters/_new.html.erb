@@ -1,0 +1,13 @@
+<%= render partial: 'users/user', locals: {user: @letter.user}%>
+
+<%= form_for(@letter) do |f| %>
+
+    <%= render 'shared/error_messages', object: f.object%>
+
+    <%= f.label :content, "私信内容" %>
+    <%= f.text_area :content %>
+    <%= f.hidden_field :sender_id %>
+    <%= f.hidden_field :receiver_id %>
+
+    <%= f.submit "发送", class: "btn btn-large btn-primary" %>
+<% end %>

@@ -2,12 +2,26 @@
   <h1>欢迎来到良师益友</h1>
 
   <h2>
-    这里有最好的老师，最好的朋友，携手一起学习，共同进步
-    <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a>
-    sample application.
+    这里有最好的老师，最好的朋友，携手一起学习，共同进步!
+
   </h2>
 
   <%= link_to "现在注册!", signup_path, class: "btn btn-large btn-primary" %>
 </div>
 
-<%= link_to image_tag("rails.png", alt: "Rails"), 'http://rubyonrails.org/' %>
+
+
+<script type="text/javascript">
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+        if (window.console && window.console.log) {
+            window.console.log(message);
+        }
+    };
+
+    var pusher = new Pusher('d6e483bc92358928a50a');
+    var channel = pusher.subscribe('test_channel');
+    channel.bind('my_event', function(data) {
+        alert(data.message);
+    });
+</script>
