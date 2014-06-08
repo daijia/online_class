@@ -1,0 +1,56 @@
+<%= form_tag('/search', :method => "get") do %>
+    <%= hidden_field_tag :search_type, @search_type %>
+    <% if @search_type == 0 %>
+
+        <%= text_field_tag :content, @content, placeholder: "搜索课程" %>
+        <%= label_tag :course_type, "课程筛选" %>
+        <% tmp_courses = get_all_course_category() %>
+        <% tmp_courses[0] = '不限' %>
+        <%= select_tag :course_type, options_for_select(tmp_courses, tmp_courses[@course_type]) %>
+        <%= submit_tag "搜索课程", class: "btn btn-large btn-primary" %>
+
+        <% if @has_search %>
+            <ul class="users">
+              <% @courses.each do |course| %>
+                <li>
+                <%= link_to course.name, course %>
+                <%= gravatar_for course.teacher, size: 52 %>
+                <%= link_to course.teacher.name, course.teacher %>
+                </li>
+              <% end %>
+            </ul>
+        <% end %>
+
+        <%= link_to '搜索用户', {:controller => "static_pages", :action => "search_simple",
+                           :search_type => 1} , :method => "get"%>
+    <% end %>
+
+    <% if @search_type == 1 %>
+        <%= text_field_tag :content, @content, placeholder: "搜索用户" %>
+        <%= label_tag :user_degree, "学历筛选" %>
+
+        <% tmp_degrees = get_all_degree() %>
+        <% tmp_degrees[0] = '不限' %>
+        <%= select_tag :user_degree, options_for_select(tmp_degrees, tmp_degrees[@user_degree]) %>
+
+
+        <%= label_tag :user_gender, "性别筛选" %>
+        <% tmp_genders = get_all_gender() %>
+        <% tmp_genders[0] = '不限' %>
+        <%= select_tag :user_gender, options_for_select(tmp_genders, tmp_genders[@user_gender]) %>
+
+
+
+        <%= submit_tag "搜索用户", class: "btn btn-large btn-primary" %>
+
+        <ul class="users">
+          <% if @has_search  %>
+            <%= render @users %>
+          <% end %>
+        </ul>
+        <%= link_to '搜索课程', {:controller => "static_pages", :action => "search_simple",
+                             :search_type => 0} , :method => "get"%>
+    <% end %>
+
+
+<% end %>

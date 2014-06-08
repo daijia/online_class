@@ -16,6 +16,7 @@ class Course < ActiveRecord::Base
   has_many :students, through: :attendence_relationships, source: :user
   has_many :course_messages, dependent: :destroy
   has_many :lessons, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   belongs_to :teacher, class_name: "User", foreign_key:"teacher_id"
   belongs_to :category, class_name: "CourseCategory", foreign_key:"category_id"

@@ -1,0 +1,19 @@
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  </div>
+  <div class="modal-body">
+    <%= form_tag(:controller => "comments", :action => "create", :method => "post") do %>
+        <%= hidden_field_tag(:course_id, @course.id)%>
+        <% if @course.comments.exists?(user_id: current_user.id) %>
+          <%= text_area_tag(:content, @course.comments.find_by(user_id: current_user.id).content) %>
+        <% else %>
+          <%= text_area_tag(:content, "") %>
+        <% end %>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+          <%= submit_tag "评论", class: "btn btn-large btn-primary" %>
+    <% end %>
+    </div>
+</div>

@@ -6,13 +6,7 @@ module UsersHelper
     image_tag(gravatar_url, alt: user.name, class: "gravatar")
   end
 
-  def get_all_gender()
-    return ["未填写", "男", "女"]
-  end
 
-  def get_all_degree()
-    return ["未填写", "小学", "初中", "高中", "本科", "硕士", "博士"]
-  end
 
   def get_degree_des(degree_id)
     degrees = get_all_degree

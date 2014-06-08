@@ -53,6 +53,23 @@
             </li>
           <% end %>
         </ul>
+        <ul>
+          <% if signed_in? && @course.students.exists?(current_user.id)%>
+              <%= render 'make_comment' %>
+              <a href="#myModal" role="button" class="btn" data-toggle="modal">我想评论</a>
+          <% end %>
+          <% @course.comments.each do |comment| %>
+              <li>
+                <%= gravatar_for comment.user, size: 52 %>
+                <%= link_to comment.user.name, comment.user %>
+                <%= comment.content %>
+                <% if current_user?(comment.user) %>
+                  <%= link_to '删除', {:controller => "comments", :action => "destroy",
+                                       :id => comment.id} , :method => "delete"%>
+                <% end %>
+              </li>
+          <% end %>
+        </ul>
       </h1>
     </section>
   </aside>
