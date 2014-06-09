@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140606135037) do
+ActiveRecord::Schema.define(version: 20140608120154) do
 
   create_table "attendence_relationships", force: true do |t|
     t.integer  "course_id"
@@ -108,6 +108,14 @@ ActiveRecord::Schema.define(version: 20140606135037) do
     t.integer  "sender_id"
     t.string   "content",     default: ""
     t.boolean  "is_read",     default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "messages", force: true do |t|
+    t.integer  "lesson_id"
+    t.integer  "user_id"
+    t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

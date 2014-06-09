@@ -12,6 +12,11 @@
     var pusher = new Pusher('d6e483bc92358928a50a');
     var channel = pusher.subscribe('test_channel');
     channel.bind('my_event', function(data) {
-        alert(data.message);
+        var pElement = document.createElement("p");
+        var messageNode = document.createTextNode(data.message);
+        document.getElementById("dialog").appendChild(messageNode)
     });
 </script>
+
+<div id="dialog">
+</div>

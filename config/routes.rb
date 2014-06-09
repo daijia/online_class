@@ -17,6 +17,7 @@ OnlineClass::Application.routes.draw do
   resources :courses, except: [:index]
   resources :lessons, except: [:index]
   resources :comments, only: [:create, :destroy]
+  resources :messages, only: [:create]
 
   match 'course_messages/add_users' => 'course_messages#add_users', :via => :post
   match 'course_messages/agree_invitation' => 'course_messages#agree_invitation', :via => :post

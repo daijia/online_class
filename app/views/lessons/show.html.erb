@@ -6,4 +6,71 @@
 <% if signed_in? && @lesson.belongs_to_user?(current_user.id)%>
     <%= link_to "编辑",  edit_lesson_path(@lesson) %>
     <%= link_to "删除", lesson_path(@lesson), :method => 'delete' %>
+
 <% end %>
+<% if signed_in? %>
+    <script src="http://js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        // Enable pusher logging - don't include this in production
+        Pusher.log = function(message) {
+            if (window.console && window.console.log) {
+                window.console.log(message);
+            }
+        };
+
+        var pusher = new Pusher('d6e483bc92358928a50a');
+        var channel = pusher.subscribe('test_channel');
+        channel.bind("my_event_" + <%= @lesson.id.to_s%>, function(data) {
+            var liElement = document.createElement("li");
+
+            var oImg=document.createElement("img");
+            oImg.setAttribute('src', data.gravatar_url);
+            oImg.setAttribute('alt', data.user_name);
+            liElement.appendChild(oImg);
+
+            var userLink=document.createElement("a");
+            userLink.setAttribute('href', data.user_url);
+            var linkNode = document.createTextNode(data.user_name);
+            userLink.appendChild(linkNode);
+            liElement.appendChild(userLink);
+
+            var position = data.message.indexOf(":");
+            var user_id = data.message.substr(0, position);
+            var messageNode = document.createTextNode(data.message + data.post_time);
+            liElement.appendChild(messageNode);
+
+            document.getElementById("dialog").appendChild(liElement);
+            if (data.user_id == document.getElementById("current_user_id").value)
+                document.getElementById("input_content").value = "";
+        });
+    </script>
+
+    <div>
+      <ul class="users" id="dialog">
+        <% @lesson.messages.each do |message| %>
+        <li>
+          <% if current_user?(message.user)%>
+              <%= gravatar_for message.user, size: 52 %>
+              <%= link_to message.user.name, message.user %>
+              <%= message.content %>
+          <% else %>
+              <%= message.content %>
+              <%= gravatar_for message.user, size: 52 %>
+              <%= link_to message.user.name, message.user %>
+          <% end %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+    <%= form_tag('/messages', :method => "post", :remote => true) do %>
+        <%= text_area_tag :content, nil , :id => "input_content"%>
+        <%= hidden_field_tag(:lesson_id, @lesson.id) %>
+
+
+        <%= submit_tag "发送", class: "btn btn-large btn-primary" %>
+
+    <% end %>
+<% end %>
+<input id="current_user_id" type="hidden" name="current_user_id" value="<%= current_user.id.to_s %>">
+
+

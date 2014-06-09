@@ -8,6 +8,7 @@ class Lesson < ActiveRecord::Base
   validates :start_time, presence: true
 
   belongs_to :course
+  has_many :messages, dependent: :destroy
 
   def belongs_to_user?(user_id)
     user = User.find(user_id)
