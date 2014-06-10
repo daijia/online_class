@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :notice, :friends, :courses, :letters]
-  before_action :correct_user,   only: [:edit, :update, :notice, :friends, :letters]
+  before_action :signed_in_user, only: [:index, :edit, :update, :destroy, :notice, :friends, :courses, :letters, :subjects]
+  before_action :correct_user,   only: [:edit, :update, :notice, :friends, :letters, :subjects]
   before_action :admin_user,     only: :destroy
   def show
     @user = User.find(params[:id])
@@ -60,6 +60,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @public_courses = @user.public_courses
     @private_courses = @user.private_courses
+  end
+
+  def subjects
+    @user = User.find(params[:id])
+    @courses = @user.subjects
   end
 
   def letters

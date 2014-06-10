@@ -5,6 +5,7 @@ OnlineClass::Application.routes.draw do
       get 'friends'
       get 'courses'
       get 'letters'
+      get 'subjects'
     end
   end
 

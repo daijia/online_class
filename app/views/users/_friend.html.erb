@@ -1,0 +1,14 @@
+
+  <div class="row">
+    <li>
+    <div class="span3 offset4">
+      <%= gravatar_for user, size: 52 %>
+      <%= link_to user.name, user %>
+    </div>
+
+    <div class="span2 offset1">
+      <%= render partial: 'shared/remove_friend_button', locals: {user: user}%>
+    </div>
+    </li>
+  </div>
+

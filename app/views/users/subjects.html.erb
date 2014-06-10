@@ -1,0 +1,10 @@
+<% provide(:title, '课程列表') %>
+
+<ul class="users">
+  <% if @courses.length == 0 %>
+      你暂时还没有任何学习课程哦
+  <% end %>
+  <% @courses.each do |course| %>
+      <%= render partial: 'shared/course', locals: {course: course}%>
+  <% end %>
+</ul>

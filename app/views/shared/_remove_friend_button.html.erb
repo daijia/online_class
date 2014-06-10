@@ -1,4 +1,4 @@
 <%= form_for(current_user.friendships.find_by(friend_id: user.id),
              html: { method: :delete }) do |f| %>
-    <%= f.submit "删除好友", class: "btn btn-large" %>
+    <%= f.submit "删除好友", class: "btn btn-danger" %>
 <% end %>

@@ -1,18 +1,15 @@
 class StaticPagesController < ApplicationController
   def home
+    @courses = Course.where(kind: 1).limit(3)
 
   end
 
   def help
-    Pusher['test_channel'].trigger('my_event', {
-        message: 'hello world'
-    })
+
   end
 
   def about
-    Pusher['test_channel'].trigger('my_event', {
-        message: 'hello world'
-    })
+
   end
 
   def contact

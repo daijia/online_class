@@ -1,27 +1,50 @@
-<div class="center hero-unit">
-  <h1>欢迎来到良师益友</h1>
+<div id="myCarousel" class="carousel slide">
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+  </ol>
+  <!-- Carousel items -->
+  <div class="carousel-inner">
+    <div class="item active">
+      <%= image_tag("home_slide1.jpeg") %>
+      <div class="carousel-caption">
+        <h4>这里有最好的导师，辅导你们学习</h4>
+      </div>
+    </div>
+    <div class="item">
+      <%= image_tag("home_slide2.jpeg") %>
+      <div class="carousel-caption">
+        <h4>这里有志同道合的朋友，一起学习，共同进步</h4>
+      </div>
+    </div>
+  </div>
 
-  <h2>
-    这里有最好的老师，最好的朋友，携手一起学习，共同进步!
+  <!-- Carousel nav -->
+  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    <script>$('.carousel').carousel()</script>
+</div>
 
-  </h2>
+<div>
+    <h2>热门课程</h2>
+    <div class="row-fluid">
+      <ul class="thumbnails">
+        <% index = 1 %>
+        <% @courses.each do |course|%>
+            <li class="span4">
+              <div class="thumbnail">
+                <%= image_tag("hot_course#{index}.png") %>
+                <% index += 1 %>
+                <div class="caption">
+                  <h4><%= link_to course.name, course %></h4>
+                </div>
+              </div>
+            </li>
+        <% end %>
 
-  <%= link_to "现在注册!", signup_path, class: "btn btn-large btn-primary" %>
+
+      </ul>
+    </div>
 </div>
 
 
-
-<script type="text/javascript">
-    // Enable pusher logging - don't include this in production
-    Pusher.log = function(message) {
-        if (window.console && window.console.log) {
-            window.console.log(message);
-        }
-    };
-
-    var pusher = new Pusher('d6e483bc92358928a50a');
-    var channel = pusher.subscribe('test_channel');
-    channel.bind('my_event', function(data) {
-        alert(data.message);
-    });
-</script>
