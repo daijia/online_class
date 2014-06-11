@@ -1,5 +1,54 @@
 <% provide(:title, @user.name) %>
+<div class="span8 offset2">
+  <div class="row">
+    <div class="span4">
+      <div class="span4"><%= gravatar_for @user, size: 250 %></div>
+      <div class="span4">
+          <% if signed_in? && !current_user?(@user) %>
+              <% if current_user.friends.exists?(@user)%>
+                  <%= link_to "已是好友", "#" , class: "btn btn-info user_page_button"%>
+              <% else %>
+                  <%= render 'shared/add_friendship' %>
+                  <a href="#myModal" role="button" class="btn btn-primary user_page_button" data-toggle="modal">加为好友</a>
+              <% end %>
+              <%= link_to '私信给TA', {:controller => "letters", :action => "new", :id => @user.id}, class:"btn btn-primary user_page_button" %>
+          <% end %>
+      </div>
+    </div>
+    <div class="span4">
+      <p class="user_description"><%= "用户名: " + @user.name%></p>
+      <p class="user_description"><%= "年龄: " + @user.age.to_s%></p>
+      <p class="user_description"><%= "性别: " + get_gender_des(@user.gender) %></p>
+      <p class="user_description"><%= "学历: " + get_degree_des(@user.degree) %></p>
+      <p class="user_description"><%= "自我描述: " + @user.description%></p>
+    </div>
+  </div>
+</div>
+<div class="span8 offset2">
+    <p class="p_middle_bar">建立的教学课程</p>
+    <ul class="users">
+      <% @courses = @user.public_courses %>
+      <% if signed_in? && (current_user?(@user) || current_user.is_friend_with?(@user))%>
+        <% @courses = @user.courses %>
+      <% end %>
+      <% @courses.each do |course| %>
+          <li>
+            <%= link_to course.name, course %>
 
+            <% if course.status == 0 %>
+                <p class="be_right">尚未开始</p>
+            <% elsif course.status == 1 %>
+                <p class="be_right">已经开始</p>
+            <% else %>
+                <p class="be_right">已经结束</p>
+            <% end %>
+
+          </li>
+      <% end %>
+    </ul>
+</div>
+
+<!--
 <% if signed_in? && !current_user?(@user) %>
     <% if current_user.friends.exists?(@user)%>
         <p>已为好友</p>
@@ -7,7 +56,7 @@
     <%= render 'shared/add_friendship' %>
     <a href="#myModal" role="button" class="btn" data-toggle="modal">加为好友</a>
     <% end %>
-    <%= link_to '私信给TA', {:controller => "letters", :action => "new", :id => @user.id} %>
+    <%= link_to '私信给TA', {:controller => "letters", :action => "new", :id => @user.id}, class:"btn btn-primary" %>
 <% end %>
 <div class="row">
   <aside class="span4">

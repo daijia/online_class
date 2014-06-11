@@ -1,6 +1,10 @@
 <% provide(:title, '我的私信') %>
 
+<div class="row">
 <%= render 'new' %>
+</div>
+
+<div class="row">
 <ul class="users">
 
   <% other_user_words_index = 0 %>
@@ -29,9 +33,9 @@
         <%= render partial: 'letter_left', locals: {user: current_user, letter: letter}%>
         <% my_words_index += 1 %>
       <% end %>
-      <%= link_to '删除', {:controller => "letters", :action => "destroy",
-                           :id => letter.id} , :method => "delete"%>
+
       </li>
   <% end %>
 
 </ul>
+</div>

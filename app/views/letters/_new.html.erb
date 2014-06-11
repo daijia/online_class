@@ -1,13 +1,18 @@
-<%= render partial: 'users/user', locals: {user: @letter.user}%>
+<div class="row">
+  <div class="span8 offset2 letter_header">
+    <%= render partial: 'users/user', locals: {user: @letter.user}%>
+  </div>
+</div>
+<div class="row">
+  <div class="span8 offset2">
+    <%= form_for(@letter) do |f| %>
+        <%= render 'shared/error_messages', object: f.object%>
+        <%= f.label :content, "私信内容" %>
+        <%= f.text_area :content,  rows: 10%>
+        <%= f.hidden_field :sender_id %>
+        <%= f.hidden_field :receiver_id %>
 
-<%= form_for(@letter) do |f| %>
-
-    <%= render 'shared/error_messages', object: f.object%>
-
-    <%= f.label :content, "私信内容" %>
-    <%= f.text_area :content %>
-    <%= f.hidden_field :sender_id %>
-    <%= f.hidden_field :receiver_id %>
-
-    <%= f.submit "发送", class: "btn btn-large btn-primary" %>
-<% end %>
+        <%= f.submit "发送", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

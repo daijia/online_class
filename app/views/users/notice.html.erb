@@ -1,11 +1,14 @@
 <% provide(:title, '我的消息') %>
 <div class="row">
-  <div class="span6 offset3">
+  <div class="span8 offset2">
     <% if @friend_requests && @friend_requests.length == 0 && @friend_request_replies && @friend_request_replies.length==0 %>
-    无任何消息
+
     <% end %>
+
     <% @friend_requests.each do |request|%>
     <li>
+      <div class="row">
+      <div class="span5">
       <%= gravatar_for request.sender, size: 52 %>
       <%= link_to request.sender.name, request.sender %>
       请求加你为好友
@@ -13,72 +16,121 @@
       <%= "(" + request.content + ")"%>
 
       <% end %>
+      </div>
       <% @user = request.sender %>
-      <%= render 'shared/add_friend_button'%>
-      <%= render partial: 'delete_notices', locals: {notice: request}%>
+      <div class="span2"><%= render 'shared/add_friend_button'%></div>
+      <div class="span1"><%= render partial: 'delete_notices', locals: {notice: request}%></div>
+      </div>
     </li>
     <% end %>
 
     <% @friend_request_replies.each do |request|%>
         <li>
+          <div class="row">
+          <div class="span5">
           <%= gravatar_for request.sender, size: 52 %>
           <%= link_to request.sender.name, request.sender %>
           通过了你的好友请求
+          </div>
+          <div class="span2"></div>
+          <div class="span1">
           <%= render partial: 'delete_notices', locals: {notice: request}%>
+          </div>
+          </div>
         </li>
     <% end %>
-
-
+  </div>
+</div>
+<div class="row">
+  <div class="span8 offset2">
     <% @course_messages.each do |message|%>
         <li>
-
+          <div class="row">
           <% if get_course_message_category_des(message[:category]) == "t_pull_s" %>
+            <div class="span5">
               你的好友<%= link_to message.sender.name, message.sender %>将你添加到了
               <%= link_to message.course.name, message.course %>课程中，赶快去看看吧
               <% if message.content && message.content != "" %>
                 <%= "( " + message.content + " )" %>
               <% end %>
+            </div>
+
+            <div class="span2"></div>
           <% end %>
 
           <% if get_course_message_category_des(message[:category]) == "t_invite_s" %>
+            <div class="span5">
               <%= link_to message.sender.name, message.sender %>邀请你去学习
               <%= link_to message.course.name, message.course %>这门课程
               <%= "( " + message.content + " )" %>
+            </div>
+            <div class="span2">
               <%= render partial: 'course_messages/agree_invitation_button', locals: {message: message}%>
+            </div>
           <% end %>
 
           <% if get_course_message_category_des(message[:category]) == "s_agree_t" %>
-              <%= link_to message.sender.name, message.sender %>加入到了你的
-              <%= link_to message.course.name, message.course %>课程中
+              <div class="span5">
+                <%= link_to message.sender.name, message.sender %>加入到了你的
+                <%= link_to message.course.name, message.course %>课程中
+              </div>
+              <div class="span2">
+
+              </div>
           <% end %>
 
           <% if get_course_message_category_des(message[:category]) == "s_ask_t" %>
-              <%= link_to message.sender.name, message.sender %>请求加入到了你的
-              <%= link_to message.course.name, message.course %>课程中
-              <%= render partial: 'course_messages/agree_access', locals: {message: message}%>
+              <div class="span5">
+                <%= link_to message.sender.name, message.sender %>请求加入到了你的
+                <%= link_to message.course.name, message.course %>课程中
+              </div>
+              <div class="span2">
+                <%= render partial: 'course_messages/agree_access', locals: {message: message}%>
+              </div>
           <% end %>
 
           <% if get_course_message_category_des(message[:category]) == "t_agree_s" %>
-              <%= link_to message.sender.name, message.sender %>将你添加到了
-              <%= link_to message.course.name, message.course %>课程中
+              <div class="span5">
+                <%= link_to message.sender.name, message.sender %>将你添加到了
+                <%= link_to message.course.name, message.course %>课程中
+              </div>
+              <div class="span2">
+
+              </div>
           <% end %>
 
           <% if get_course_message_category_des(message[:category]) == "s_quit_t" %>
-              <%= link_to message.sender.name, message.sender %>退出了你的
-              <%= link_to message.course.name, message.course %>课程
+              <div class="span5">
+                <%= link_to message.sender.name, message.sender %>退出了你的
+                <%= link_to message.course.name, message.course %>课程
+              </div>
+              <div class="span2">
+
+              </div>
           <% end %>
 
           <% if get_course_message_category_des(message[:category]) == "t_quit_s" %>
-              <%= link_to message.sender.name, message.sender %>将你从他的
-              <%= link_to message.course.name, message.course %>课程移除了
+              <div class="span5">
+                <%= link_to message.sender.name, message.sender %>将你从他的
+                <%= link_to message.course.name, message.course %>课程移除了
+              </div>
+              <div class="span2">
+              </div>
+
           <% end %>
 
           <% if get_course_message_category_des(message[:category]) == "t_destroy_s" %>
-              <%= link_to message.sender.name, message.sender %>删除了
-              <%= message.content %>课程
+              <div class="span5">
+                <%= link_to message.sender.name, message.sender %>删除了
+                <%= message.content %>课程
+              </div>
+              <div class="span2">
+              </div>
           <% end %>
-
+          <div class="span1">
           <%= render partial: 'course_messages/delete_course_message', locals: {message: message}%>
+          </div>
+          </div>
         </li>
     <% end %>
 

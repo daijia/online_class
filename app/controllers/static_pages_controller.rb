@@ -84,16 +84,7 @@ class StaticPagesController < ApplicationController
         options = " and category_id = '#{@course_type}'"
       end
       @courses = Course.where("name LIKE '%#{@content}%' and kind = '1'" + options)
-      if signed_in?
-        @private_courses = []
-        current_user.friends.each do |friend|
-          tmp_courses = friend.courses.where("name LIKE '%#{@content}%' and kind = '0'" + options)
-          if tmp_courses
-            @private_courses += tmp_courses
-          end
-        end
-        @courses = @private_courses + @courses
-      end
+
       render 'search' and return
     end
 

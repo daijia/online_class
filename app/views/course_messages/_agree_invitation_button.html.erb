@@ -1,4 +1,4 @@
 <%= form_tag('/course_messages/agree_invitation', :method => "post") do %>
     <%= hidden_field_tag(:message_id, message.id) %>
-    <%= submit_tag "接受", class: "btn btn-large btn-primary" %>
+    <%= submit_tag "接受", class: "btn btn-primary" %>
 <% end %>

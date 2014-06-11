@@ -187,3 +187,120 @@ input {
     }
   }
 }
+
+
+.dialog
+{
+  background-color:#eee;
+  border: 1px solid #888;
+  border-radius:15px;
+}
+
+.p_description
+{
+  border-radius:5px;
+  background-color: peachpuff;
+  margin-bottom: 25px;
+}
+
+.p_lesson_not_start
+{
+  border-radius:5px;
+  background-color: #2566ff;
+  font-size: 1em;
+}
+
+.p_lesson_start
+{
+  border-radius:5px;
+  background-color: #1aff2c;
+  font-size: 1em;
+}
+
+.p_lesson_end
+{
+  border-radius:5px;
+  background-color: #ff2c2e;
+  font-size: 1em;
+}
+
+.chat_bubble
+{
+  border-radius:5px;
+  background-color: #1ba7ff;
+}
+
+
+.be_right
+{
+  float: right;
+}
+
+.with_margin_bottom
+{
+  margin-bottom: 15px;
+}
+
+.be_center
+{
+  text-align: center;
+}
+.be_center img{ margin:0px auto; clear:both}
+
+
+.title_label
+{
+    font-size: 2em;
+    letter-spacing: -1px;
+    margin-bottom: 15px;
+    text-align: left;
+    font-weight: normal;
+
+
+}
+
+.p_middle_bar
+{
+  margin-top: 20px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  height: 30px;
+  text-align: center;
+  background-color: #b499ff;
+}
+
+.add_lesson_margin
+{
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+
+}
+
+.want_comment_margin
+{
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.user_description
+{
+  margin-top: 8px;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-color: #a6fff5;
+}
+
+.user_page_button
+{
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.letter_header
+{
+  margin-top: 5px;
+  margin-bottom: 20px;
+}

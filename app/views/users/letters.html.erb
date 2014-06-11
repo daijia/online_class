@@ -1,17 +1,22 @@
 <% provide(:title, '我的私信') %>
 
-
+<div class="row">
+  <div class="span8 offset2">
 <ul class="users">
   <% if current_user.letters.any? %>
       <% index = 0 %>
       <% @letters.each do |letter| %>
           <li>
-            <%= link_to letter.content[0, 200], {:controller => "letters", :action => "conversion", :id => letter.sender.id} %>
-            <%= letter.created_at %>
+            <div class="row span8">
             <%= gravatar_for letter.sender, size: 52 %>
             <%= link_to letter.sender.name, letter.sender %>
+
+            <%= link_to letter.content[0, 200], {:controller => "letters", :action => "conversion", :id => letter.sender.id} %>
+            <br>
+            <%= letter.created_at.strftime("%Y-%m-%d %H:%M") %>
             <%= "未读"+@unread_letter_count[index].to_s + "条" %>
             <% index += 1 %>
+            </div>
           </li>
       <% end %>
 
@@ -19,3 +24,5 @@
       你暂时还没有私信
   <% end %>
 </ul>
+  </div>
+</div>

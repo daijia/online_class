@@ -1,4 +1,157 @@
 <div class="row">
+  <div class="span8">
+
+    <div class="row">
+      <div class="span5">
+        <h1>
+          <%= @course.name+"(#{get_course_kind_res(@course.kind)})" %>
+        </h1>
+      </div>
+      <div class="span2 offset1">
+        <br/>
+        <% if signed_in? %>
+            <% if current_user?(@course.teacher)%>
+                <%= link_to "更新", edit_course_path(@course), class: "btn btn-primary " %>
+                <%= link_to "删除", course_path(@course), class:"btn btn-danger ", :method => 'delete' %>
+            <% else %>
+                <% if !@course.students.exists?(current_user.id) %>
+                    <%= render partial: 'course_messages/access_course', locals: {course: @course}%>
+                <% else %>
+                    <%= render partial: 'course_messages/quit_course_by_self', locals: {course: @course}%>
+                <% end %>
+            <% end %>
+        <% end %>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="span8">
+        <% if @course.description != "" %>
+            <p class="title_label">课程简介</p>
+            <p class="p_description"><%= @course.description %></p>
+        <% end %>
+      </div>
+      <div class="span8">
+        <% if @course.knowledge != "" %>
+            <p class="title_label">课程公告</p>
+            <p class="p_description"><%= @course.knowledge %></p>
+        <% end %>
+      </div>
+      <div class="span8">
+        <% if @course.plan != "" %>
+            <p class="title_label">辅导计划</p>
+            <p class="p_description"><%= @course.plan %></p>
+        <% end %>
+      </div>
+      <div class="span8">
+        <% if @course.reference != "" %>
+            <p class="title_label">参考资料</p>
+            <p class="p_description"><%= @course.reference %></p>
+        <% end %>
+      </div>
+      <div class="span8">
+        <p class="p_middle_bar">所有课堂</p>
+        <ul class="users">
+          <% @course.lessons.each do |lesson| %>
+              <li>
+                <%= link_to lesson.name, lesson %>
+                <% if lesson.start_time > Time.new %><br/>
+                    <p class="be_right"><%= "开始时间:#{lesson.start_time.strftime("%Y-%m-%d %H:%M")}"%>/尚未开始</p>
+                <% elsif lesson.start_time + lesson.duration*60 > Time.new %>
+                    <p class="be_right"><%= "开始时间:#{lesson.start_time.strftime("%Y-%m-%d %H:%M")}"%>/已经开始</p>
+                <% else %>
+                    <p class="be_right"><%= "开始时间:#{lesson.start_time.strftime("%Y-%m-%d %H:%M")}"%>/已经结束</p>
+                <% end %>
+                <p class="be_right"></p>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+      <div>
+        <% if signed_in? && current_user?(@course.teacher)%>
+            <%= render partial: 'lessons/create_lesson', locals: {course: @course}%>
+        <% end %>
+
+      </div>
+      <div class="span8">
+        <p class="title_label">评论</p>
+
+
+
+            <ul class="users">
+              <% @course.comments.each do |comment| %>
+                  <li>
+
+                        <%= gravatar_for comment.user, size: 52 %>
+                        <%= link_to comment.user.name, comment.user %>
+                        <%= comment.content %>
+
+                        <% if current_user?(comment.user) %>
+                            <%= link_to '删除',  {:controller => "comments", :action => "destroy",
+                                                :id => comment.id} , :method => "delete", class: "btn btn-danger be_right"%>
+                        <% end %>
+
+                  </li>
+              <% end %>
+            </ul>
+        <% if signed_in? && @course.students.exists?(current_user.id)%>
+            <div class="span8">
+              <%= render 'make_comment' %>
+              <a href="#myModal" role="button" class="btn btn-primary be_right want_comment_margin" data-toggle="modal">我想评论</a>
+            </div>
+        <% end %>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="span3 offset1">
+    <div class="span3">
+      <% if signed_in? && current_user?(@course.teacher)%>
+          <%= render partial: 'course_messages/add_users_form', locals: {course: @course}%>
+      <% end %>
+    </div>
+    <div class="span3">
+
+          <p class="title_label">导师</p>
+          <%= gravatar_for @course.teacher, size: 52 %>
+          <%= link_to @course.teacher.name, @course.teacher %>
+    </div>
+
+    <div class="span3">
+      <p class="title_label">课程状态</p>
+      <% if @course.status == 0 %><br/>
+          <p class="p_lesson_not_start">尚未开始</p>
+      <% elsif @course.status == 1 %>
+          <p class="p_lesson_start">已经开始</p>
+      <% else %>
+          <p class="p_lesson_end">已经结束</p>
+      <% end %>
+
+    </div>
+
+    <div class="span3">
+      <ul class="users">
+        <p class="title_label">学生</p>
+        <% @course.students.each do |student| %>
+            <li>
+              <%= gravatar_for student, size: 52 %>
+              <%= link_to student.name, student %>
+              <% if current_user?(@course.teacher) %>
+                  <%= render partial: 'course_messages/quit_course_by_teacher', locals: {user: student, course: @course} %>
+              <% end %>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+
+
+  </div>
+</div>
+
+<!--
+<div class="row">
   <aside class="span4">
     <section>
       <h1>
@@ -8,7 +161,7 @@
             <p><%= "课程描述:" + @course.description %></p>
         <% end %>
         <% if @course.knowledge != "" %>
-            <p><%= "预备知识:" + @course.knowledge %></p>
+            <p><%= "课程公告:" + @course.knowledge %></p>
         <% end %>
         <% if @course.plan != "" %>
             <p><%= "课程计划:" + @course.plan %></p>
@@ -74,3 +227,5 @@
     </section>
   </aside>
 </div>
+
+-->

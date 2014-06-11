@@ -9,11 +9,11 @@ class MessagesController < ApplicationController
     end
     if (params[:content] && params[:content].strip != "" && params[:content].strip.length <= 200 && lesson.course.can_be_seen?(current_user.id))
       lesson.messages.create(user_id: current_user.id, content: params[:content].strip)
-      date = Time.new.strftime("%Y-%m-%d %H:%M:%S")
+      date = Time.new.strftime("%Y-%m-%d %H:%M")
       gravatar_id = Digest::MD5::hexdigest(current_user.email.downcase)
       gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}.png?s=52"
       Pusher['test_channel'].trigger('my_event_' + lesson.id.to_s, {
-          message: current_user.id.to_s + ":" + params[:content],
+          message: params[:content],
           user_id: current_user.id.to_s,
           user_name: current_user.name,
           user_url: user_url(current_user.id),

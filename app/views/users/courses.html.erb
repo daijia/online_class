@@ -7,10 +7,13 @@
   <% @public_courses.each do |course| %>
       <%= render partial: 'shared/course', locals: {course: course}%>
   <% end %>
-  <% if current_user?(@user) %>
+  <% if current_user?(@user)|| current_user.is_friend_with?(@user) %>
       <% @private_courses.each do |course| %>
           <%= render partial: 'shared/course', locals: {course: course}%>
       <% end %>
+      <% if current_user?(@user) %>
+      <%= link_to '创建课程', new_course_path%>
+      <% end %>
   <% end %>
-  <%= link_to '创建课程', new_course_path%>
+
 </ul>

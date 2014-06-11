@@ -1,4 +1,4 @@
 <%= form_tag('/course_messages/agree_access', :method => "post") do %>
     <%= hidden_field_tag(:message_id, message.id) %>
-    <%= submit_tag "同意", class: "btn btn-large btn-primary" %>
+    <%= submit_tag "同意", class: "btn btn-primary" %>
 <% end %>

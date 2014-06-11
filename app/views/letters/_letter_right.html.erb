@@ -1,5 +1,16 @@
-
-  <%= letter.content %>
-  <%= letter.created_at %>
-  <%= gravatar_for user, size: 52 %>
-  <%= link_to user.name, user %>
+<div class="row">
+  <div class="span8 offset2">
+    <div class="span1">
+      <%= gravatar_for user, size: 52 %>
+      <%= link_to user.name, user %>
+    </div>
+    <div class="span5">
+      <%= letter.content %><br/>
+      <p><%= letter.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+    </div>
+    <div class="span1">
+      <%= link_to '删除', {:controller => "letters", :action => "destroy",
+                         :id => letter.id} , :method => "delete", class:"btn btn-primary"%>
+    </div>
+  </div>
+</div>

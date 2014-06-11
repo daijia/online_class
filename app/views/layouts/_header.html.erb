@@ -4,8 +4,7 @@
       <%= link_to "良师益友", root_path, id: "logo" %>
       <nav>
         <ul class="nav pull-right">
-          <li><%= link_to "主页",    root_path %></li>
-          <li><%= link_to "帮助",    help_path %></li>
+
           <% if signed_in? %>
               <li><%= link_to "所有用户", users_path %></li>
               <li><%= link_to "消息", notice_user_path(current_user) %></li>
@@ -13,6 +12,7 @@
               <li><%= link_to "教学课程", courses_user_path(current_user) %></li>
               <li><%= link_to "学习课程", subjects_user_path(current_user) %></li>
               <li><%= link_to "我的私信", letters_user_path(current_user) %></li>
+              <li><%= link_to "搜索", simple_search_path %></li>
               <li id="fat-menu" class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   我的账号 <b class="caret"></b>
@@ -29,8 +29,8 @@
               </li>
           <% else %>
               <li><%= link_to "登录", signin_path %></li>
+              <li><%= link_to "注册", signup_path %></li>
           <% end %>
-
 
         </ul>
       </nav>

@@ -4,7 +4,7 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.find(params[:id])
-    if @course.public? || (signed_in? && current_user?(@course.teacher))
+    if @course.public? || (signed_in? && @course.can_be_seen?(current_user.id))
       render 'show'
     else
       flash[:error] = "你无权限查看"

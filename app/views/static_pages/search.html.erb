@@ -1,9 +1,106 @@
+
+<div class="row">
 <%= form_tag('/search', :method => "get") do %>
     <%= hidden_field_tag :search_type, @search_type %>
     <% if @search_type == 0 %>
+      <div class="span3">
+        <p class="title_label">课程筛选</p>
+        <% tmp_courses = get_all_course_category() %>
+        <% tmp_courses[0] = '不限' %>
+        <%= select_tag :course_type, options_for_select(tmp_courses, tmp_courses[@course_type]) %>
+      </div>
+      <div class="span8 offset1">
+        <div class="row">
+          <div class="span5">
+            <%= text_field_tag :content, @content, placeholder: "搜索课程" %>
+          </div>
+          <div class="span3">
+            <%= submit_tag "搜索课程", class: "btn btn-primary" %>
+            <%= link_to '搜索用户', {:controller => "static_pages", :action => "search_simple",
+                                 :search_type => 1} , :method => "get"%>
+          </div>
+         </div>
+      </div>
+        <div class="span8 offset1">
+        <% if @has_search %>
+            <ul class="users">
+              <% @courses.each do |course| %>
+                <li>
+                <div class="row">
+                    <div class="span5">
+                    <%= link_to course.name, course %>
+                    </div>
+                  <div class="span3">
+                    <%= link_to course.teacher.name, course.teacher %>
+                    <%= gravatar_for course.teacher, size: 52 %>
+                  </div>
+                </div>
+                </li>
+              <% end %>
+            </ul>
 
+        <% end %>
+       </div>
+    <% end %>
+
+      <% if @search_type == 1 %>
+          <div class="span3">
+            <p class="title_label">学历筛选</p>
+            <% tmp_degrees = get_all_degree() %>
+            <% tmp_degrees[0] = '不限' %>
+            <%= select_tag :user_degree, options_for_select(tmp_degrees, tmp_degrees[@user_degree]) %>
+
+            <p class="title_label">性别筛选</p>
+            <% tmp_genders = get_all_gender() %>
+            <% tmp_genders[0] = '不限' %>
+            <%= select_tag :user_gender, options_for_select(tmp_genders, tmp_genders[@user_gender]) %>
+
+          </div>
+          <div class="span8 offset1">
+            <div class="row">
+              <div class="span5">
+                <%= text_field_tag :content, @content, placeholder: "搜索用户" %>
+              </div>
+              <div class="span3">
+                <%= submit_tag "搜索用户", class: "btn btn-primary" %>
+                <%= link_to '搜索课程', {:controller => "static_pages", :action => "search_simple",
+                                     :search_type => 0} , :method => "get"%>
+              </div>
+            </div>
+          </div>
+          <div class="span8 offset1">
+            <% if @has_search %>
+                <ul class="users">
+                  <% if @has_search  %>
+                      <%= render @users %>
+                  <% end %>
+                </ul>
+            <% end %>
+          </div>
+      <% end %>
+
+
+
+<% end %>
+
+</div>
+
+
+
+
+
+
+<!--
+<div class="row">
+<%= form_tag('/search', :method => "get") do %>
+    <%= hidden_field_tag :search_type, @search_type %>
+    <% if @search_type == 0 %>
+      <div class="span3 offset1">
+      </div>
+      <div class="span6">
+      </div>
         <%= text_field_tag :content, @content, placeholder: "搜索课程" %>
-        <%= label_tag :course_type, "课程筛选" %>
+        <p><%= label_tag :course_type, "课程筛选" %>
         <% tmp_courses = get_all_course_category() %>
         <% tmp_courses[0] = '不限' %>
         <%= select_tag :course_type, options_for_select(tmp_courses, tmp_courses[@course_type]) %>
@@ -54,3 +151,4 @@
 
 
 <% end %>
+</div>-->

@@ -1,13 +1,14 @@
 <footer class="footer">
   <small>
-    <a href="http://railstutorial.org/">Rails Tutorial</a>
-    by Michael Hartl
+    <a href="<%= root_path%>">良师益友</a>
+    by daijia
   </small>
   <nav>
     <ul>
+      <li><%= link_to "帮助",    help_path %></li>
       <li><%= link_to "关于我们",   about_path %></li>
       <li><%= link_to "联系我们", contact_path %></li>
-      <li><a href="http://news.railstutorial.org/">News</a></li>
+
     </ul>
   </nav>
 </footer>

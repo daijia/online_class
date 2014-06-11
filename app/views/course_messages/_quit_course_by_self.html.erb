@@ -1,4 +1,4 @@
 <%= form_tag('/course_messages/quit_course_by_self', :method => "post") do %>
     <%= hidden_field_tag(:course_id, course.id) %>
-    <%= submit_tag "退出", class: "btn btn-large btn-primary" %>
+    <%= submit_tag "退出", class: "btn btn-danger" %>
 <% end %>

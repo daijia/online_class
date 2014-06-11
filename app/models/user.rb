@@ -78,6 +78,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def is_friend_with?(user)
+    self.friendships.exists?(friend_id: user.id)
+  end
 
   private
 
